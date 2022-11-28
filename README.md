@@ -38,7 +38,7 @@ Plots either sound speed profile or sound speed field, depending on input file c
 
 ### plotenv(fname,ssp=True)
 Plots environment elements (surface, bottom, objects, source and receivers).
-The ssp flag defines if it will also plots either the sound speed profile in a separate subplot or the sound speed field as a colormesh overlay over the main plot, depending on
+The ssp flag defines if it will also plot either the sound speed profile in a separate subplot or the sound speed field as a colormesh overlay over the main plot, depending on
 the input file SSP configuration.
 
 ### plotray(fname,color_default='k',colorRSR='g',colorRBR='b',colorSRBR='r')
