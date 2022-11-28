@@ -46,17 +46,13 @@ def runtraceo(path,fname):
     
     '''
     if platsys() == 'Linux:':
-        system('cp {:s} WAVFIL'.format(fname + '.in'));
-        system(path);
-        system('cp LOGFIL {:s}'.format(fname + '.log'));
-        system('rm WAVFIL');
-        system('rm LOGFIL');
+        system('{} {}.in'.format(path,fname));
     else:        
-        system('copy {:s} WAVFIL'.format(fname + '.in'));
-        system(path);
-        system('copy LOGFIL {:s}'.format(fname + '.log'));
-        system('del WAVFIL');
-        system('del LOGFIL');
+        system('copy {:s} WAVFIL'.format(fname + '.in'))
+        system(path)
+        system('copy LOGFIL {:s}'.format(fname + '.log'))
+        system('del WAVFIL')
+        system('del LOGFIL')
 
 def munk(Z,Z1=1300,c1=1500):
     '''
