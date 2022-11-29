@@ -62,14 +62,13 @@ Plots eigenrays arrivals from ADR or ADP (amplitudes and delays) runs in a ray a
 ## Auxiliary functions
 
 ### runtraceo(path,fname)
-Checks operating system (Windows or Linux) and runs TRACEO on the specified path with the input file specified by fname. On Windows, manually copies and deletes LOGFIL and WAVFIL files during execution. Useful for systems (particularly Windows) where the default TRACEO call command bugs.  
+Checks operating system (Windows or Linux) and runs TRACEO on the specified path with the input file specified by fname. Manually copies and deletes LOGFIL and WAVFIL files during execution with system-specific commands.
 If a previous TRACEO output (.mat) of the same type with the default name exists, deletes it to avoid file corruption on overwriting.
 
 ### munk(z,z1=1300,c1=1500)
 Generates a sound speed profile as specified by Munk (1974) along the list of depths specified by z. z1 and c1 are depth and sound speed of sound channel and default to the canonical values.
 
 ### transmit(data,Fs,filename='aad.mat')
-
 Simulates a signal transmission along a waveguide by using a modeled impulse response given by a TRACEO amplitudes and delays run (ADR or ADP). Reads aad.mat file, constructs a time domain impulse response for each of the receivers and convolves it with the signal given by data with sampling frequency Fs. Analytic signal is used because impulse response is complex, otherwise the imaginary part will not be convolved, which discards phase changes. Only the real part of the received signal is returned.  
 Outputs a NxM array where N is the number of receivers and M is the number of samples for the maximum duration resulting from a convolution, such as that all received signals have the same length. If no eigenrays reach a receiver, its row will be filled with zeros.
 
