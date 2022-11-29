@@ -28,7 +28,7 @@ from itertools import product
 from scipy.interpolate import interp2d
 from scipy.signal import hilbert, fftconvolve
 from os import system
-from os.path import exists
+from os.path import exists, join
 from platform import system as platsys
 
 ### AUXILIARY FUNCTIONS ###
@@ -60,15 +60,15 @@ def runtraceo(path,fname):
     if platsys() == 'Linux':
         if exists(prev_file):
             system('rm {}'.format(prev_file))
-        system('cp {:s} {:s}'.format(fname+'.in',path+'WAVFIL.in'))
-        system('{:s}traceo.exe {:s}WAVFIL.in'.format(path,path))
-        system('rm {:s}WAVFIL.in'.format(path))
+        system('cp {:s} {:s}'.format(fname+'.in',join(path,'WAVFIL.in')))
+        system('{:s} {:s}'.format(join(path,'traceo.exe'),join(path,'WAVFIL.in')))
+        system('rm {:s}'.format(join(path,'WAVFIL.in')))
     else:
         if exists(prev_file):
             system('del {}'.format(prev_file))
-        system('copy {:s} {:s}'.format(fname+'.in',path+'WAVFIL.in'))
-        system('{:s}traceo.exe {:s}WAVFIL.in'.format(path,path))
-        system('del {:s}WAVFIL.in'.format(path))
+        system('copy {:s} {:s}'.format(fname+'.in',join(path,'WAVFIL.in')))
+        system('{:s} {:s}'.format(join(path,'traceo.exe'),join(path,'WAVFIL.in')))
+        system('del {:s}'.format(join(path,'WAVFIL.in')))
 
 def munk(z,z1=1300,c1=1500):
     '''
