@@ -1,8 +1,8 @@
 TRACEOTOOLS is released under the Creative Commons
 Attribution-NonCommercial-ShareAlike 4.0 International
 (CC BY-NC-SA 4.0).
-Below is a human-readable summary as well as the complete legal text
-of the license.
+Below is a human-readable summary as well as the complete legal text of
+the license.
 
 You are free to:
 
