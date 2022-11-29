@@ -59,16 +59,30 @@ def runtraceo(path,fname):
         
     if platsys() == 'Linux:':
         if exists(prev_file):
-            system('rm {}'.format(prev_file)) 
-        system('{} {}.in'.format(path,fname))
+            system('rm {}'.format(prev_file))
+        system('cp {:s} WAVFIL'.format(fname + '.in'));
+        system('{}'.format(path))
+        system('cp LOGFIL {:s}'.format(fname + '.log'));
+        system('rm WAVFIL');
+        system('rm LOGFIL');
     else:
         if exists(prev_file):
             system('del {}'.format(prev_file))
         system('copy {:s} WAVFIL'.format(fname + '.in'));
-        system(path);
+        system('{}'.format(path))
         system('copy LOGFIL {:s}'.format(fname + '.log'));
         system('del WAVFIL');
         system('del LOGFIL');
+            
+            
+            
+        # print('copy {:s} {:s}'.format(fname+'.in',path+fname+'.in'))
+        # system('copy {:s} {:s}'.format(fname+'.in','WAVFIL.in'));
+        # system('move WAVFIL.in {:s}'.format(path))
+        # system('{:s}traceo.exe {:s}WAVFIL.in'.format(path,path));
+        # # system('copy LOGFIL {:s}'.format(fname + '.log'));
+        # # system('del WAVFIL');
+        # # system('del LOGFIL');
 
 def munk(z,z1=1300,c1=1500):
     '''
@@ -267,9 +281,8 @@ def _axes_config(axes,title,zmax=None,rbox=None):
     axes.tick_params(labelsize=10)
     axes.invert_yaxis()
 
-def _fig_show(fig):
+def _fig_config(fig):
     fig.set_size_inches(8,6)
-    plt.show()   
 
 ### TraceoPlot CLASS ###
 
@@ -444,7 +457,7 @@ def plotssp(fname):
         graph.colorbar.set_label('Sound speed (m/s)')
         graph.colorbar.ax.tick_params(labelsize=10)
     
-    _fig_show(graph.fig)
+    _fig_config(graph.fig)
 
     return graph
 
@@ -501,6 +514,7 @@ def plotenv(fname,ssp=True):
             graph.ssp_axes.set_xlabel('Sound speed (m/s)')
             graph.ssp_axes.grid(True)
             graph.ssp_axes.axes.get_yaxis().set_visible(False)
+            graph.fig.tight_layout()
         
         # Case for sound speed field (range-dependent)
         elif infile[sep[2]+1] == '\'c(r,z)\'\n':
@@ -532,8 +546,7 @@ def plotenv(fname,ssp=True):
     title = infile[0] + 'r\N{LATIN SUBSCRIPT SMALL LETTER S} = ' + str(src[0]/1000) + \
             ' km, z\N{LATIN SUBSCRIPT SMALL LETTER S} = ' + str(src[1]) + ' m, f = ' + str(f) + ' Hz'
     _axes_config(graph.axes,title,zmax=zmax,rbox=rbox)
-    _fig_show(graph.fig)
-    graph.fig.tight_layout()
+    _fig_config(graph.fig)
     
     return graph
 
@@ -623,7 +636,7 @@ def plotray(fname,color_default='k',colorRSR='g',colorRBR='b',colorSRBR='r'):
     title = infile[0] + 'r\N{LATIN SUBSCRIPT SMALL LETTER S} = ' + str(src[0]/1000) + \
             ' km, z\N{LATIN SUBSCRIPT SMALL LETTER S} = ' + str(src[1]) + ' m, f = ' + str(f) + ' Hz'
     _axes_config(graph.axes,title,zmax=zmax,rbox=rbox)
-    _fig_show(graph.fig)
+    _fig_config(graph.fig)
     
     return graph
 
@@ -700,7 +713,7 @@ def plotcpr(fname,cmap='viridis_r'):
     graph.colorbar.set_label('Transmission loss (dB)')
     graph.colorbar.ax.tick_params(labelsize=10)
     graph.colorbar.ax.invert_yaxis()
-    _fig_show(graph.fig)
+    _fig_config(graph.fig)
     
     return graph
 
@@ -774,7 +787,7 @@ def plottlz(fname,z):
     _axes_config(graph.axes,title,rbox=rbox)
     graph.axes.set_ylabel('Transmission Loss (dB)',fontsize=10)
     graph.axes.legend()
-    _fig_show(graph.fig)
+    _fig_config(graph.fig)
     
     return graph
 
@@ -850,7 +863,7 @@ def plottlr(fname,r):
     graph.axes.set_xlim(0,zmax)
     graph.axes.set_xlabel('Depth (m)',fontsize=10)
     graph.axes.legend()
-    _fig_show(graph.fig)
+    _fig_config(graph.fig)
     
     return graph
 
@@ -938,7 +951,7 @@ def plotpvl(fname,cmap='viridis_r'):
     graph.colorbar.ax.tick_params(labelsize=10)
     graph.fig.suptitle(infile[0] + 'r\N{LATIN SUBSCRIPT SMALL LETTER S} = ' + str(src[0]/1000) + \
                        ' km, z\N{LATIN SUBSCRIPT SMALL LETTER S} = ' + str(src[1]) + ' m, f = ' + str(f) + ' Hz')
-    _fig_show(graph.fig)
+    _fig_config(graph.fig)
     
     return graph
 
@@ -1018,7 +1031,8 @@ def plotaad(fname,which=[]):
     graph.axes.set_xlabel('Travel time (s)')
     graph.axes.set_ylabel('Ray amplitude')
     graph.axes.legend(title='Receiver @:')
-    _fig_show(graph.fig)
+    _fig_config(graph.fig)
+    
     return graph
 
 ### INPUT FILE WRITING FUNCTION ###
