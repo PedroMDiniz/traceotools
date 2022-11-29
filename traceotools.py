@@ -60,29 +60,19 @@ def runtraceo(path,fname):
     if platsys() == 'Linux:':
         if exists(prev_file):
             system('rm {}'.format(prev_file))
-        system('cp {:s} WAVFIL'.format(fname + '.in'));
+        system('cp {:s} WAVFIL'.format(fname + '.in'))
         system('{}'.format(path))
-        system('cp LOGFIL {:s}'.format(fname + '.log'));
-        system('rm WAVFIL');
-        system('rm LOGFIL');
+        system('cp LOGFIL {:s}'.format(fname + '.log'))
+        system('rm WAVFIL')
+        system('rm LOGFIL')
     else:
         if exists(prev_file):
             system('del {}'.format(prev_file))
-        system('copy {:s} WAVFIL'.format(fname + '.in'));
+        system('copy {:s} WAVFIL'.format(fname + '.in'))
         system('{}'.format(path))
-        system('copy LOGFIL {:s}'.format(fname + '.log'));
-        system('del WAVFIL');
-        system('del LOGFIL');
-            
-            
-            
-        # print('copy {:s} {:s}'.format(fname+'.in',path+fname+'.in'))
-        # system('copy {:s} {:s}'.format(fname+'.in','WAVFIL.in'));
-        # system('move WAVFIL.in {:s}'.format(path))
-        # system('{:s}traceo.exe {:s}WAVFIL.in'.format(path,path));
-        # # system('copy LOGFIL {:s}'.format(fname + '.log'));
-        # # system('del WAVFIL');
-        # # system('del LOGFIL');
+        system('copy LOGFIL {:s}'.format(fname + '.log'))
+        system('del WAVFIL')
+        system('del LOGFIL')
 
 def munk(z,z1=1300,c1=1500):
     '''
