@@ -18,7 +18,7 @@ from traceotools import *
 import os
 
 ### CHANGE TO CORRECT PATH ###
-traceopath = 'C:\\Users\\mdped\\Desktop\\AT\\bin\\'
+traceopath = 'C:\\Users\\mdped\\Desktop\\TRACEO_github\\TRACEO\\'
 
 case_title = 'Test file'
 fname = 'test'
