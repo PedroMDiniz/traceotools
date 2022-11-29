@@ -15,7 +15,6 @@ import numpy as np
 from scipy.signal import chirp
 import matplotlib.pyplot as plt
 from traceotools import *
-import os
 
 ### CHANGE TO CORRECT PATH ###
 traceopath = 'C:\\Users\\mdped\\Desktop\\AT\\bin\\'
