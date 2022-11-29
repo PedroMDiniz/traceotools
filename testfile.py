@@ -19,7 +19,6 @@ import os
 
 ### CHANGE TO CORRECT PATH ###
 traceopath = 'C:/Users/mdped/Desktop/AT/bin/traceo.exe'
-# traceopath = 'C:/Users/mdped/Desktop/TRACEO-main/TRACEO/'
 
 case_title = 'Test file'
 fname = 'test'
