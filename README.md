@@ -62,7 +62,8 @@ Plots eigenrays arrivals from ADR or ADP (amplitudes and delays) runs in a ray a
 ## Auxiliary functions
 
 ### runtraceo(path,fname)
-Checks operating system (Windows or Linux) and runs TRACEO on the specified path with the input file specified by fname. Manually copies and deletes LOGFIL and WAVFIL files during execution. Useful for systems (particularly Windows) where the default TRACEO call command bugs.
+Checks operating system (Windows or Linux) and runs TRACEO on the specified path with the input file specified by fname. On Windows, manually copies and deletes LOGFIL and WAVFIL files during execution. Useful for systems (particularly Windows) where the default TRACEO call command bugs.  
+If a previous TRACEO output (.mat) of the same type with the default name exists, deletes it to avoid file corruption on overwriting.
 
 ### munk(Z,Z1=1300,c1=1500)
 Generates a sound speed profile as specified by Munk (1974) along the list of depths specified by Z. Z1 and c1 are depth and sound speed of sound channel and default to the canonical values.
