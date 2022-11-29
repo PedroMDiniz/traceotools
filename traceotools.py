@@ -60,19 +60,15 @@ def runtraceo(path,fname):
     if platsys() == 'Linux:':
         if exists(prev_file):
             system('rm {}'.format(prev_file))
-        system('cp {:s} WAVFIL'.format(fname + '.in'))
-        system('{}'.format(path+'traceo.exe'))
-        system('cp LOGFIL {:s}'.format(fname + '.log'))
-        system('rm WAVFIL')
-        system('rm LOGFIL')
+        system('cp {:s} {:s}'.format(fname+'.in',path+'WAVFIL.in'));
+        system('{:s}traceo.exe {:s}WAVFIL.in'.format(path,path));
+        system('rm {:s}WAVFIL.in'.format(path))
     else:
         if exists(prev_file):
             system('del {}'.format(prev_file))
-        system('copy {:s} WAVFIL'.format(fname + '.in'))
-        system('{}'.format(path+'traceo.exe'))
-        system('copy LOGFIL {:s}'.format(fname + '.log'))
-        system('del WAVFIL')
-        system('del LOGFIL')
+        system('copy {:s} {:s}'.format(fname+'.in',path+'WAVFIL.in'));
+        system('{:s}traceo.exe {:s}WAVFIL.in'.format(path,path));
+        system('del {:s}WAVFIL.in'.format(path))
 
 def munk(z,z1=1300,c1=1500):
     '''
