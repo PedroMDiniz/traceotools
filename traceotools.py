@@ -57,7 +57,7 @@ def runtraceo(path,fname):
     else:
         prev_file = '{}.mat'.format(infile[-2][1:4].lower())
         
-    if platsys() == 'Linux:':
+    if platsys() == 'Linux':
         if exists(prev_file):
             system('rm {}'.format(prev_file))
         system('cp {:s} {:s}'.format(fname+'.in',path+'WAVFIL.in'))
