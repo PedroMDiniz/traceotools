@@ -84,7 +84,7 @@ The only necessary change is the complete path for traceo.exe on the first line 
 
 ## License notes
 
-TRACEOTOOLS is released under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) This is a human-readable summary of (and not a substitute for) the license. Please read the attached "license.txt" file for the full text of the license.  
+TRACEOTOOLS is released under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0). This is a human-readable summary of (and not a substitute for) the license. Please read the attached "license.txt" file for the full text of the license.  
 
 You are free to:
 
