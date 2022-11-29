@@ -15,9 +15,11 @@ import numpy as np
 from scipy.signal import chirp
 import matplotlib.pyplot as plt
 from traceotools import *
+import os
 
 ### CHANGE TO CORRECT PATH ###
-traceopath = 'C:/dummy_path/traceo.exe'
+traceopath = 'C:/Users/mdped/Desktop/AT/bin/traceo.exe'
+# traceopath = 'C:/Users/mdped/Desktop/TRACEO-main/TRACEO/'
 
 case_title = 'Test file'
 fname = 'test'
@@ -40,7 +42,7 @@ thetamax = 17 # Maximum ray launching angle (0 is horizontal)
 nthetas = 35 # Number of rays
 thetas = np.linspace(-thetamax,thetamax,nthetas) # Launching angles
 
-ray_step = 10 # Step of integration 
+ray_step = 100 # Step of integration 
              # If set to 0, model uses Rmax to calculate preliminary step
 
 rbox = [-1,Rmax+1] # Horizontal limits of bounding box.
@@ -223,6 +225,8 @@ graph = plottlr(fname,[1000,80000]) # CPR CTL PAV
 graph = plottlz(fname,[zs,4000]) # CPR CTL PAV
 graph = plotpvl(fname) # PVL PAV
 
+plt.show()
+
 #%%
 # Runs showcasing ray tracing, eigenrays and environment plotting
 
@@ -246,9 +250,10 @@ output_data['z']           = zarray
 wtraceoinfil(fname,case_title,source_data,surface_data,ssp_data,object_data,bottom_data,output_data)
 runtraceo(traceopath,fname)
 
-graph = plotenv(fname,ssp=True)
 graph = plotray(fname) # RCO ARI ERF EPR
+graph = plotenv(fname,ssp=True)
 
+plt.show()
 #%%
 # Run showcasing amplitudes and delays and simulated transmission
 
@@ -280,6 +285,8 @@ if runtype in ['ADR','ADP']:
         fig.colorbar(c[3])
         fig.tight_layout()
 
+plt.show()
+
 #%%
 # Modifying figure after creation
 
@@ -297,6 +304,8 @@ output_data['r']           = rarray
 output_data['z']           = zarray
 wtraceoinfil(fname,case_title,source_data,surface_data,ssp_data,object_data,bottom_data,output_data)
 runtraceo(traceopath,fname)
+
+plt.ion() # Turning interactive mode on to correctly display figure if running from console
 
 graph = plotcpr(fname)
 print(graph.__dict__) # Shows objects contained in graph
@@ -320,8 +329,11 @@ graph.axes.set_xlabel('Range (m)')
 graph.axes.scatter([Rmax,Rmax,Rmax],[1000,1300,2000],marker='d',color='r',s=50,
                    label = 'Receivers')
 graph.axes.legend()
-# Changing figure size and updating plot
+# Changing figure properties
 graph.fig.set_size_inches(8,4)
+graph.fig.tight_layout()
+
+plt.ioff()
 plt.show()
 
 #%% PLOTTING FUNCTIONS
