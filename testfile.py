@@ -11,30 +11,19 @@ Arraial do Cabo, 28/11/2022
 
 '''
 
-
 import numpy as np
 from scipy.signal import chirp
 import matplotlib.pyplot as plt
 from traceotools import *
 
-traceopath = 'C:/Users/mdped/Desktop/AT/bin/traceo.exe'
+### CHANGE TO CORRECT PATH ###
+traceopath = 'C:/dummy_path/traceo.exe'
 
 case_title = 'Test file'
 fname = 'test'
 
 runtype = 'PAV'
-
-# # If running model several times for the same run type
-# # uncomment this block to delete the previous .mat file
-# # otherwise Traceo sometimes corrupts the file when overwriting.
-# if runtype in ['ADR','ADP']:
-#     os.system("del aad.mat") 
-# elif runtype in ['EPR','ERF']:
-#     os.system("del eig.mat")
-# else:
-#     os.system("del {}.mat".format(runtype.lower()))
     
-
 #==================================================================
 # 
 # Define source data:
@@ -51,7 +40,7 @@ thetamax = 17 # Maximum ray launching angle (0 is horizontal)
 nthetas = 35 # Number of rays
 thetas = np.linspace(-thetamax,thetamax,nthetas) # Launching angles
 
-ray_step = 0 # Step of integration 
+ray_step = 10 # Step of integration 
              # If set to 0, model uses Rmax to calculate preliminary step
 
 rbox = [-1,Rmax+1] # Horizontal limits of bounding box.
@@ -223,7 +212,6 @@ output_data['miss']        = 1 # Proximity limit for eigenray and arrivals calcu
 # RUNNING THE MODEL:
 #  
 #==================================================================
-
 # Run showcasing coherent pressure, TL and particle velocity plotting
 
 wtraceoinfil(fname,case_title,source_data,surface_data,ssp_data,object_data,bottom_data,output_data)
@@ -235,6 +223,7 @@ graph = plottlr(fname,[1000,80000]) # CPR CTL PAV
 graph = plottlz(fname,[zs,4000]) # CPR CTL PAV
 graph = plotpvl(fname) # PVL PAV
 
+#%%
 # Runs showcasing ray tracing, eigenrays and environment plotting
 
 runtype = 'ARI'
@@ -260,6 +249,7 @@ runtraceo(traceopath,fname)
 graph = plotenv(fname,ssp=True)
 graph = plotray(fname) # RCO ARI ERF EPR
 
+#%%
 # Run showcasing amplitudes and delays and simulated transmission
 
 runtype = 'ADR'
@@ -269,16 +259,7 @@ runtraceo(traceopath,fname)
 
 graph = plotaad(fname) # ADR ADP
 
-#%% PLOTTING
-# graph = plotssp(fname)
-# graph = plotray(fname) # RCO ARI ERF EPR
-# graph = plotcpr(fname) # CPR CTL PAV
-# graph = plottlr(fname,[1000,80000]) # CPR CTL PAV
-# graph = plottlz(fname,[zs,4000]) # CPR CTL PAV
-# graph = plotpvl(fname) # PVL PAV
-# graph = plotaad(fname) # ADR ADP
-
-#%% TRANSMITTING
+# TRANSMITTING
 # Creates a chirp and transmits using an amplitudes and delays output file
 # with added noise before plotting.
 
@@ -298,3 +279,57 @@ if runtype in ['ADR','ADP']:
         ax.set_ylim(0,Fs/2)
         fig.colorbar(c[3])
         fig.tight_layout()
+
+#%%
+# Modifying figure after creation
+
+runtype = 'CPR'
+nthetas = 35 # Number of rays
+thetas = np.linspace(-thetamax,thetamax,nthetas) # Launching angles
+source_data['thetas']   = thetas
+output_data['ctype']       = runtype # Run type
+nra = 501 # Number of arrays distributed along range
+rarray = np.linspace(0,Rmax,nra) # Ranges of arrays
+nza = 501  # Number of arrays distributed along depth
+zarray = np.linspace(0,Dmax,nza) # Depths of arrays
+output_data['array_shape'] = "RRY" # Geometry of array: rectangular
+output_data['r']           = rarray
+output_data['z']           = zarray
+wtraceoinfil(fname,case_title,source_data,surface_data,ssp_data,object_data,bottom_data,output_data)
+runtraceo(traceopath,fname)
+
+graph = plotcpr(fname)
+print(graph.__dict__) # Shows objects contained in graph
+# Editing colormap
+graph.image.set_cmap('jet_r')
+graph.image.set_clim(60,110)
+# Removing original colorbar and creating a new one
+graph.colorbar.remove()
+graph.colorbar = plt.colorbar(graph.image,orientation='horizontal',extend='both',
+                              label='TL (dB)')
+graph.colorbar.ax.invert_yaxis()
+# Removing bottom
+graph.sediment.set_facecolor('white')
+graph.sediment.set_edgecolor('white')
+graph.bathy.set_visible(False)
+# Editing axes
+graph.axes.set_title('Test file CPR (modified)')
+graph.axes.set_xticks(np.linspace(0,Rmax,6))
+graph.axes.set_xticklabels(np.linspace(0,Rmax,6))
+graph.axes.set_xlabel('Range (m)')
+graph.axes.scatter([Rmax,Rmax,Rmax],[1000,1300,2000],marker='d',color='r',s=50,
+                   label = 'Receivers')
+graph.axes.legend()
+# Changing figure size and updating plot
+graph.fig.set_size_inches(8,4)
+plt.show()
+
+#%% PLOTTING FUNCTIONS
+# graph = plotssp(fname)
+# graph = plotenv(fname,ssp=True)
+# graph = plotray(fname) # RCO ARI ERF EPR
+# graph = plotcpr(fname) # CPR CTL PAV
+# graph = plottlr(fname,[1000,80000]) # CPR CTL PAV
+# graph = plottlz(fname,[zs,4000]) # CPR CTL PAV
+# graph = plotpvl(fname) # PVL PAV
+# graph = plotaad(fname) # ADR ADP

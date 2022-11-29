@@ -28,14 +28,17 @@ from itertools import product
 from scipy.interpolate import interp2d
 from scipy.signal import hilbert, fftconvolve
 from os import system
+from os.path import exists
 from platform import system as platsys
 
 ### AUXILIARY FUNCTIONS ###
 
 def runtraceo(path,fname):
     '''
-    Calls traceo.exe with the specified input file and creates logfile.
+    Calls traceo.exe with the specified input file.
     Checks operating system and uses commands for either Linux or Windows.
+    If a previous TRACEO output (.mat) of the same type with the default name
+    exists, deletes it to avoid file corruption on overwriting.
 
     Parameters
     ----------
@@ -45,24 +48,37 @@ def runtraceo(path,fname):
            type: string
     
     '''
-    if platsys() == 'Linux:':
-        system('{} {}.in'.format(path,fname));
-    else:        
-        system('copy {:s} WAVFIL'.format(fname + '.in'))
-        system(path)
-        system('copy LOGFIL {:s}'.format(fname + '.log'))
-        system('del WAVFIL')
-        system('del LOGFIL')
 
-def munk(Z,Z1=1300,c1=1500):
+    infile, _ = _setup(fname)
+    if infile[-2][1:4] in ['ADR','ADP']:
+        prev_file = 'aad.mat'
+    elif infile[-2][1:4] in ['EPR','ERF']:
+        prev_file = 'eig.mat'
+    else:
+        prev_file = '{}.mat'.format(infile[-2][1:4].lower())
+        
+    if platsys() == 'Linux:':
+        if exists(prev_file):
+            system('rm {}'.format(prev_file)) 
+        system('{} {}.in'.format(path,fname))
+    else:
+        if exists(prev_file):
+            system('del {}'.format(prev_file))
+        system('copy {:s} WAVFIL'.format(fname + '.in'));
+        system(path);
+        system('copy LOGFIL {:s}'.format(fname + '.log'));
+        system('del WAVFIL');
+        system('del LOGFIL');
+
+def munk(z,z1=1300,c1=1500):
     '''
     Generates Munk sound speed profile as defined by Munk (1974).
     
     Parameters
     ----------
-    Z : depths at which sound speed is to be calculated (m)
+    z : depths at which sound speed is to be calculated (m)
         type: array
-    Z1 : depth of deep sound channel (m). Optional, defaults to 1300 m
+    z1 : depth of deep sound channel (m). Optional, defaults to 1300 m
         type: float
     c1 : sound speed at deep sound channel (m/s). Optional, defaults to 1500 m/s
         type: float
@@ -72,9 +88,9 @@ def munk(Z,Z1=1300,c1=1500):
     c : sound speed profile (m/s)
        type: numpy array
     '''
-    c = np.ones(len(Z))
+    c = np.ones(len(z))
     eps = 7.37e-3
-    eta = 2 * (Z - Z1)/1300
+    eta = 2 * (z - z1)/1300
     c = c1 * (1 + eps*(eta + np.exp(-eta) - 1))
     
     return c
