@@ -1,6 +1,6 @@
 # TRACEOTOOLS
 
-Python plotting package for TRACEO ray tracing model.
+Python plotting package and auxiliary functions for TRACEO ray tracing model.
 
 Pedro Mendes Diniz  
 Instituto de Estudos do Mar Almirante Paulo Moreira  
@@ -78,6 +78,10 @@ Adds white Gaussian noise to a signal from either a desired SNR (dB) or noise le
 If signal is complex, noise power is split between real and imaginary parts, each with half variance (or standard deviation scaled by sqrt(2)).  
 Seed for random noise array can be specified.
 Returns the noisy signal array, pure noise array added and the average SNR.
+
+## Test file
+Also included is a test file that configures and calls TRACEO multiple times for various run types and calls the plotting functions accordingly. Also uses the auxiliary functions to generate the sound speed profile and simulate a transmission with added noise. If all goes well, 13 figures should be produced.  
+The only necessary change is the complete path for traceo.exe on the first line of the script after imports.
 
 ## License notes
 
