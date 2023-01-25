@@ -21,7 +21,7 @@ Arraial do Cabo, 28/11/2022
 
 WARNING: This version of TraceoTools is for the current running version of Traceo.
 If using the legacy (2015) version of Traceo, runtraceo() won't work.
-Download the appropriate TraceoTools version or upgrade Traceo via de link above.
+Download the appropriate TraceoTools version or upgrade Traceo via the link above.
 
 '''
 
