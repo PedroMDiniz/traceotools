@@ -41,8 +41,7 @@ thetamax = 17 # Maximum ray launching angle (0 is horizontal)
 nthetas = 35 # Number of rays
 thetas = np.linspace(-thetamax,thetamax,nthetas) # Launching angles
 
-ray_step = 100 # Step of integration 
-             # If set to 0, model uses Rmax to calculate preliminary step
+ray_step = 100 # Step of integration
 
 rbox = [-1,Rmax+1] # Horizontal limits of bounding box.
 
