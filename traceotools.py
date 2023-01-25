@@ -13,10 +13,15 @@ is as provided in that package.
 
 Includes functions for plotting data from every output file from TRACEO.
 These functions read information from the TRACEO input file (.in).
+Also includes auxiliary functions for simulating signal transmission.
 
 CT Pedro Mendes Diniz  
 Instituto de Estudos do Mar Almirante Paulo Moreira  
 Arraial do Cabo, 28/11/2022
+
+WARNING: This version of TraceoTools is for the current running version of Traceo.
+If using the legacy (2015) version of Traceo, runtraceo() won't work.
+Download the appropriate TraceoTools version or upgrade Traceo via de link above.
 
 '''
 
@@ -45,7 +50,7 @@ def runtraceo(path,fname):
     path : path of traceo.exe.
           type: string
     fname : name of the .in file (without extension).
-           type: string
+            type: string
     
     '''
 
@@ -60,19 +65,11 @@ def runtraceo(path,fname):
     if platsys() == 'Linux':
         if exists(prev_file):
             system('rm {}'.format(prev_file))
-        system('cp {:s} WAVFIL'.format(fname + '.in'))
-        system('{}'.format(join(path,'traceo.exe')))
-        system('cp LOGFIL {:s}'.format(fname + '.log'))
-        system('rm WAVFIL')
-        system('rm LOGFIL')
+        system('{:s}'.format(join(path,'traceo.exe '+fname+'.in')))
     else:
         if exists(prev_file):
             system('del {}'.format(prev_file))
-        system('copy {:s} WAVFIL'.format(fname + '.in'))
-        system('{}'.format(join(path,'traceo.exe')))
-        system('copy LOGFIL {:s}'.format(fname + '.log'))
-        system('del WAVFIL')
-        system('del LOGFIL')
+        system('{:s}'.format(join(path,'traceo.exe '+fname+'.in')))
 
 def munk(z,z1=1300,c1=1500):
     '''
