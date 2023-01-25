@@ -18,6 +18,10 @@ Physics Department
 Signal Processing Laboratory  
 Copyright (C) 2010 
 
+WARNING: This version of TraceoTools is for the current running version of TRACEO.
+If using the legacy (2015) version of TRACEO, runtraceo() won't work.
+Download the appropriate TraceoTools version or upgrade TRACEO via the link above.
+
 ## Plotting functions
 
 Includes functions for plotting data from every output file from TRACEO. Functions return an instance of a TraceoPlot class object containing figure, axes and plot elements (such as source marker, bottom line and colorbar). These objects can then be interacted with as regular Matplotlib objects. For example, source marker (and other elements) can be easily turned off with:
@@ -62,7 +66,7 @@ Plots eigenrays arrivals from ADR or ADP (amplitudes and delays) runs in a ray a
 ## Auxiliary functions
 
 ### runtraceo(path,fname)
-Checks operating system (Windows or Linux) and runs TRACEO on the specified path with the input file specified by fname. Manually copies and deletes LOGFIL and WAVFIL files during execution with system-specific commands.
+Checks operating system (Windows or Linux) and runs TRACEO on the specified path with the input file specified by fname.
 If a previous TRACEO output (.mat) of the same type with the default name exists, deletes it to avoid file corruption on overwriting.
 
 ### munk(z,z1=1300,c1=1500)
