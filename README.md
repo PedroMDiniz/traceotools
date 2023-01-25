@@ -18,6 +18,11 @@ Physics Department
 Signal Processing Laboratory  
 Copyright (C) 2010 
 
+
+WARNING: This version of TraceoTools is for the legacy (2015) version of TRACEO.
+If using the current version of TRACEO, runtraceo() won't work.
+Download the appropriate TraceoTools version (main branch @ https://github.com/PedroMDiniz/traceotools)
+
 ## Plotting functions
 
 Includes functions for plotting data from every output file from TRACEO. Functions return an instance of a TraceoPlot class object containing figure, axes and plot elements (such as source marker, bottom line and colorbar). These objects can then be interacted with as regular Matplotlib objects. For example, source marker (and other elements) can be easily turned off with:
