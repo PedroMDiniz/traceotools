@@ -19,7 +19,7 @@ Signal Processing Laboratory
 Copyright (C) 2010 
 
 WARNING: This version of TraceoTools is for the current running version of TRACEO.
-If using the legacy (2015) version of TRACEO, runtraceo() won't work.
+If you are using the legacy (2015) version of TRACEO, runtraceo() won't work.
 Download the appropriate TraceoTools version or upgrade TRACEO via the link above.
 
 ## Plotting functions
@@ -61,7 +61,7 @@ Plots transmission loss section along a desired range or list of ranges. Works w
 Plots coherent transmission loss for horizontal and vertical components of particle velocity from PVL (particle velocity) or PAV runs as colormeshes on separate axes. Objects contained within TraceoPlot instance are duplicated, one for each subplot, and organized in lists. Colormap default range is estimated statistically. Takes an optional argument for which colormap to use.
 
 ### plotaad(fname,which=[]):
-Plots eigenrays arrivals from ADR or ADP (amplitudes and delays) runs in a ray amplitude x travel time graph. Series of arrivals are grouped by receiver. Accepts as parameter a list of which receivers' results should be plotted. Defaults to all receivers, but the graph can become too crowded if there are too many. Not a true stem plot, markers and stems are plotted individually and can be configured independently.
+Plots eigenrays arrivals from ADR or ADP (amplitudes and delays) runs in a ray amplitude by travel time graph. Series of arrivals are grouped by receiver. Accepts as parameter a list of which receivers' results should be plotted. Defaults to all receivers, but the graph can become too crowded if there are too many. Not a true stem plot, markers and stems are plotted individually and can be configured independently.
 
 ## Auxiliary functions
 
@@ -77,7 +77,7 @@ Simulates a signal transmission along a waveguide by using a modeled impulse res
 Outputs a NxM array where N is the number of receivers and M is the number of samples for the maximum duration resulting from a convolution, such as that all received signals have the same length. If no eigenrays reach a receiver, its row will be filled with zeros.
 
 ### add_noise(signal,SNRdb=None,NLdb=None,seed=None)
-Adds white Gaussian noise to a signal from either a desired SNR (dB) or noise level (db). If signal is multichannel, a different realization of noise is added to each channel. In case SNRdb is provided, it will be treated as the average SNR across channels in such a way that the noise added to each channel all have the same level.  
+Adds white Gaussian noise to a signal from either a desired SNR (dB) or noise level (dB). If signal is multichannel, a different realization of noise is added to each channel. In case SNRdb is provided, it will be treated as the average SNR across channels in such a way that the noise added to each channel all have the same level.  
 If signal is complex, noise power is split between real and imaginary parts, each with half variance (or standard deviation scaled by sqrt(2)).  
 Seed for random noise array can be specified.
 Returns the noisy signal array, pure noise array added and the average SNR.
