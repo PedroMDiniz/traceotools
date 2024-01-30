@@ -180,7 +180,7 @@ def transmit(data,Fs,filename='aad.mat'):
 def add_noise(signal,SNRdb=None,NLdb=None,seed=None):
     '''
     Adds white Gaussian noise to a signal from a desired SNR (dB)
-    or noise level (db). If signal is multichanel, a different realization of
+    or noise level (dB). If signal is multichanel, a different realization of
     noise is added to each chanel. In case SNRdb is provided, it will be treated
     as the average SNR across channels in such a way that the noise added to
     each channel all have the same level.
@@ -254,10 +254,10 @@ def _setup(fname):
 
 def _get_extent(infile,sep):
 
-    rarray = np.array(infile[sep[-1]-2].split(' '))[0:-1].astype(np.float)
+    rarray = np.array(infile[sep[-1]-2].split(' '))[0:-1].astype(np.float64)
     r1 = rarray[0]
     r2 = rarray[-1]
-    zarray = np.array(infile[sep[-1]-1].split(' '))[0:-1].astype(np.float)
+    zarray = np.array(infile[sep[-1]-1].split(' '))[0:-1].astype(np.float64)
     z1 = zarray[0]
     z2 = zarray[-1]
     return [r1,r2,z1,z2]
@@ -297,7 +297,7 @@ class TraceoPlot:
     def _add_surface(self,infile,sep):
         alti = infile[sep[1]+7:sep[2]]
         for i in range(len(alti)):
-            alti[i] = np.array(alti[i].split(' ')).astype(np.float)
+            alti[i] = np.array(alti[i].split(' ')).astype(np.float64)
         alti = np.array(alti)
         
         if np.ndim(self.axes) == 0:
@@ -315,7 +315,7 @@ class TraceoPlot:
     def _add_bottom(self,infile,sep,tlsection=False):
         bathy = infile[sep[4]+7:sep[5]]
         for i in range(len(bathy)):
-            bathy[i] = np.array(bathy[i].split(' ')).astype(np.float)
+            bathy[i] = np.array(bathy[i].split(' ')).astype(np.float64)
         bathy = np.array(bathy) 
         zmax = bathy[:,1].max()
         self.maxdepth = zmax
@@ -346,7 +346,7 @@ class TraceoPlot:
                 for i in range(nobj):
                     obj_contour = infile[sep[3]+2+(i+1)*5+i*npobj-int(bool(i)):sep[3]+2+(i+1)*5+i*npobj+npobj-int(bool(i))]
                     for j in range(len(obj_contour)):
-                        obj_contour[j] = np.array(obj_contour[j].split(' ')).astype(np.float)
+                        obj_contour[j] = np.array(obj_contour[j].split(' ')).astype(np.float64)
                     obj_contour = np.array(obj_contour)
                     obj = self.axes.fill_between(obj_contour[:,0],obj_contour[:,1],obj_contour[:,2],color='k')
                     self.objects.append(obj)
@@ -356,13 +356,13 @@ class TraceoPlot:
                     for i in range(nobj):
                         obj_contour = infile[sep[3]+2+(i+1)*5+i*npobj-int(bool(i)):sep[3]+2+(i+1)*5+i*npobj+npobj-int(bool(i))]
                         for j in range(len(obj_contour)):
-                            obj_contour[j] = np.array(obj_contour[j].split(' ')).astype(np.float)
+                            obj_contour[j] = np.array(obj_contour[j].split(' ')).astype(np.float64)
                         obj_contour = np.array(obj_contour)
                         obj.append(ax.axes.fill_between(obj_contour[:,0],obj_contour[:,1],obj_contour[:,2],color='k'))
                     self.objects.append(obj)
     
     def _add_source(self,infile):
-        src = np.array(infile[3].split(' ')).astype(np.float)
+        src = np.array(infile[3].split(' ')).astype(np.float64)
         if np.ndim(self.axes) == 0:
             self.source = self.axes.scatter(*src,s=50,c='m',zorder=10,label='Source')
         else:
@@ -371,8 +371,8 @@ class TraceoPlot:
                 self.source.append(ax.scatter(*src,s=50,c='m',zorder=10,label='Source'))
                 
     def _add_receivers(self,infile,sep):
-        rarray = np.array(infile[sep[-1]-2].split(' '))[0:-1].astype(np.float)
-        zarray = np.array(infile[sep[-1]-1].split(' '))[0:-1].astype(np.float)
+        rarray = np.array(infile[sep[-1]-2].split(' '))[0:-1].astype(np.float64)
+        zarray = np.array(infile[sep[-1]-1].split(' '))[0:-1].astype(np.float64)
         self.receivers = self.axes.scatter(*zip(*product(rarray,zarray)),s=50,c='g',marker='d',zorder=9,label='Receiver')
     
     def _create_rays_list(self):
@@ -408,14 +408,14 @@ def plotssp(fname):
 
     '''
     infile, sep = _setup(fname)
-    rbox = np.array(infile[4].split(' ')).astype(np.float) # bounding box x coordinates
+    rbox = np.array(infile[4].split(' ')).astype(np.float64) # bounding box x coordinates
     graph = TraceoPlot()
             
     # Case for sound speed profile (range-independent)
     if infile[sep[2]+1] == '\'c(z,z)\'\n': 
         ssp = infile[sep[2]+4:sep[3]]
         for i in range(len(ssp)):
-            ssp[i] = np.array(ssp[i].split(' ')).astype(np.float)
+            ssp[i] = np.array(ssp[i].split(' ')).astype(np.float64)
         ssp = np.array(ssp)
         graph.axes.plot(ssp[:,1],ssp[:,0],'b')
         
@@ -430,15 +430,15 @@ def plotssp(fname):
     elif infile[sep[2]+1] == '\'c(r,z)\'\n':
         r = infile[sep[2]+4]
         r = np.array(r.split(' '))
-        r = r[0:-1].astype(np.float)
+        r = r[0:-1].astype(np.float64)
         z = infile[sep[2]+5]
         z = np.array(z.split(' '))
-        z = z[0:-1].astype(np.float)
+        z = z[0:-1].astype(np.float64)
         c = infile[sep[2]+6:sep[3]]
         C = np.zeros([len(r),len(z)])
         for i in range(len(c)):
             temp = np.array(c[i].split(' '))
-            C[i,:] = temp[0:-1].astype(np.float)
+            C[i,:] = temp[0:-1].astype(np.float64)
         r, z = np.meshgrid(r,z)
         img = graph.axes.pcolormesh(r, z, C, cmap='jet',shading='auto')
         graph._set_image(img)
@@ -478,8 +478,8 @@ def plotenv(fname,ssp=True):
     infile, sep = _setup(fname)
     
     # General information
-    src = np.array(infile[3].split(' ')).astype(np.float) # source coordinates
-    rbox = np.array(infile[4].split(' ')).astype(np.float) # bounding box x coordinates
+    src = np.array(infile[3].split(' ')).astype(np.float64) # source coordinates
+    rbox = np.array(infile[4].split(' ')).astype(np.float64) # bounding box x coordinates
     f = float(infile[5]) # frequency
     
     # Adding graph elements
@@ -499,7 +499,7 @@ def plotenv(fname,ssp=True):
             graph.ssp_axes = graph.fig.add_subplot(gs[4],sharey=graph.axes)
             ssp = infile[sep[2]+4:sep[3]]
             for i in range(len(ssp)):
-                ssp[i] = np.array(ssp[i].split(' ')).astype(np.float)
+                ssp[i] = np.array(ssp[i].split(' ')).astype(np.float64)
             ssp = np.array(ssp)
             graph.ssp_axes.plot(ssp[:,1],ssp[:,0],'b')
             
@@ -515,15 +515,15 @@ def plotenv(fname,ssp=True):
         elif infile[sep[2]+1] == '\'c(r,z)\'\n':
             r = infile[sep[2]+4]
             r = np.array(r.split(' '))
-            r = r[0:-1].astype(np.float)
+            r = r[0:-1].astype(np.float64)
             z = infile[sep[2]+5]
             z = np.array(z.split(' '))
-            z = z[0:-1].astype(np.float)
+            z = z[0:-1].astype(np.float64)
             c = infile[sep[2]+6:sep[3]]
             C = np.zeros([len(r),len(z)])
             for i in range(len(c)):
                 temp = np.array(c[i].split(' '))
-                C[i,:] = temp[0:-1].astype(np.float)
+                C[i,:] = temp[0:-1].astype(np.float64)
             r, z = np.meshgrid(r,z)
             img = graph.axes.pcolormesh(r, z, C, cmap='jet',shading='auto',zorder=0)
             graph._set_image(img)
@@ -574,8 +574,8 @@ def plotray(fname,color_default='k',colorRSR='g',colorRBR='b',colorSRBR='r'):
     infile, sep = _setup(fname)
     
     # General information
-    src = np.array(infile[3].split(' ')).astype(np.float) # source coordinates
-    rbox = np.array(infile[4].split(' ')).astype(np.float) # bounding box x coordinates
+    src = np.array(infile[3].split(' ')).astype(np.float64) # source coordinates
+    rbox = np.array(infile[4].split(' ')).astype(np.float64) # bounding box x coordinates
     f = float(infile[5]) # frequency
     
     # Adding graph elements
@@ -680,8 +680,8 @@ def plotcpr(fname,cmap='viridis_r'):
     cbarmin = 10 * round(cbarmin/10)
     
     # General information
-    src = np.array(infile[3].split(' ')).astype(np.float) # source coordinates
-    rbox = np.array(infile[4].split(' ')).astype(np.float) # bounding box x coordinates
+    src = np.array(infile[3].split(' ')).astype(np.float64) # source coordinates
+    rbox = np.array(infile[4].split(' ')).astype(np.float64) # bounding box x coordinates
     f = float(infile[5]) # frequency
     
     # Adding graph elements
@@ -748,8 +748,8 @@ def plottlz(fname,z):
         tl = -20*np.log10(abs(P))
     
     # General information
-    src = np.array(infile[3].split(' ')).astype(np.float) # source coordinates
-    rbox = np.array(infile[4].split(' ')).astype(np.float) # bounding box x coordinates
+    src = np.array(infile[3].split(' ')).astype(np.float64) # source coordinates
+    rbox = np.array(infile[4].split(' ')).astype(np.float64) # bounding box x coordinates
     f = float(infile[5]) # frequency
     
     graph = TraceoPlot()
@@ -822,8 +822,8 @@ def plottlr(fname,r):
         tl = -20*np.log10(abs(P))
     
     # General information
-    src = np.array(infile[3].split(' ')).astype(np.float) # source coordinates
-    rbox = np.array(infile[4].split(' ')).astype(np.float) # bounding box x coordinates
+    src = np.array(infile[3].split(' ')).astype(np.float64) # source coordinates
+    rbox = np.array(infile[4].split(' ')).astype(np.float64) # bounding box x coordinates
     f = float(infile[5]) # frequency
     
     graph = TraceoPlot()
@@ -887,8 +887,8 @@ def plotpvl(fname,cmap='viridis_r'):
     infile, sep = _setup(fname)
     
     # General information
-    src = np.array(infile[3].split(' ')).astype(np.float) # source coordinates
-    rbox = np.array(infile[4].split(' ')).astype(np.float) # bounding box x coordinates
+    src = np.array(infile[3].split(' ')).astype(np.float64) # source coordinates
+    rbox = np.array(infile[4].split(' ')).astype(np.float64) # bounding box x coordinates
     f = float(infile[5]) # frequency
 
     # Adding graph elements
@@ -974,7 +974,7 @@ def plotaad(fname,which=[]):
     infile, sep = _setup(fname)
     
     # General information
-    src = np.array(infile[3].split(' ')).astype(np.float) # source coordinates
+    src = np.array(infile[3].split(' ')).astype(np.float64) # source coordinates
     f = float(infile[5]) # frequency
     
     graph = TraceoPlot()
