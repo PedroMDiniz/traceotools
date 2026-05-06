@@ -30,7 +30,7 @@ import matplotlib.pyplot as plt
 from matplotlib import gridspec
 from scipy.io import loadmat
 from itertools import product
-from scipy.interpolate import interp2d
+from scipy.interpolate import RectBivariateSpline
 from scipy.signal import hilbert, fftconvolve
 from os import system
 from os.path import exists, join
@@ -761,9 +761,9 @@ def plottlz(fname,z):
     ranges = np.linspace(extent[0],extent[1],tl.shape[1])
     depths = np.linspace(extent[2],extent[3],tl.shape[0])
     try:
-        interpolate = interp2d(ranges,depths,tl)
+        interpolate = RectBivariateSpline(ranges,depths,tl.T)
     except Exception:
-        print('Array geometry is not rectangular')
+        print('Failure to interpolate in plottlz: check array geometry.')
         return
     
     # Plotting TL
@@ -773,7 +773,7 @@ def plottlz(fname,z):
         if zi < 0 or zi > zmax:
             print('{} m out of bounds.'.format(zi))
         else:
-            tl_z = interpolate(ranges,zi)
+            tl_z = np.squeeze(interpolate(ranges,zi).T)
             graph.axes.plot(ranges,tl_z,label='TL @ {} m'.format(zi))
 
     # Graph config
@@ -835,9 +835,9 @@ def plottlr(fname,r):
     ranges = np.linspace(extent[0],extent[1],tl.shape[1])
     depths = np.linspace(extent[2],extent[3],tl.shape[0])
     try:
-        interpolate = interp2d(ranges,depths,tl)
+        interpolate = RectBivariateSpline(ranges,depths,tl.T)
     except Exception:
-        print('Array geometry is not rectangular')
+        print('Failure to interpolate in plottlr: check array geometry.')
         return
 
     # Plotting TL
@@ -847,7 +847,7 @@ def plottlr(fname,r):
         if ri < 0 or ri > rbox[1]:
             print('{} km out of bounds.'.format(ri/1000))
         else:
-            tl_r = interpolate(ri,depths)
+            tl_r = np.squeeze(interpolate(ri,depths).T)
             graph.axes.plot(depths,tl_r,label='TL @ {} km'.format(ri/1000))
             
     # Graph config
